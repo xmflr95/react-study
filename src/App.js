@@ -1,23 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import { useMemo, useState } from "react";
 
 function App() {
+  const [text, setText] = useState("");
+  const [number, setNumber] = useState(0);
+
+  const expensiveFunction = (n) => {
+    console.log("Function re-rendered!");
+    let total = 0;
+    for (let i = 1; i < n; i++) {
+      total += i;
+    }
+    return total;
+  }
+
+  const sum = useMemo(() => expensiveFunction(number), [number]);
+
+  console.log("Component re-rendered!");
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <input 
+        onChange={(e) => setText(e.target.value)} 
+        placeholder="enter a text"
+      />
+      <br />
+      <input 
+        onChange={(e) => setNumber(e.target.value)} 
+        placeholder="enter a number"
+      />
+      <br />
+      <span>Total : {sum}</span>
     </div>
   );
 }
